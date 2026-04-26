@@ -1,0 +1,31 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: incomelab-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-incomelab}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-incomelab}
+      POSTGRES_DB: ${POSTGRES_DB:-incomelab}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - incomelab_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-incomelab} -d ${POSTGRES_DB:-incomelab}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  adminer:
+    image: adminer:4
+    container_name: incomelab-adminer
+    restart: unless-stopped
+    ports:
+      - "8088:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  incomelab_pgdata:

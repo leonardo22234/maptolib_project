@@ -1,0 +1,30 @@
+[project]
+name = "income-lab"
+version = "0.2.0"
+description = "Income Lab — серьёзный учёт доходов на Streamlit (PostgreSQL/SQLite)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Income Lab" }]
+dependencies = [
+    "streamlit>=1.36",
+    "pandas>=2.2",
+    "plotly>=5.22",
+    "numpy>=1.26",
+    "scikit-learn>=1.5",
+    "SQLAlchemy>=2.0",
+    "psycopg2-binary>=2.9",
+    "python-dotenv>=1.0",
+    "openpyxl>=3.1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -q"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]
